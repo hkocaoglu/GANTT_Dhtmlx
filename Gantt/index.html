@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Gantt Chart</title>
+	<script src="./codebase/dhtmlxgantt.js?v=8.0.9"></script>
+	<script src="https://export.dhtmlx.com/gantt/api.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="./codebase/dhtmlxgantt.css?v=8.0.9">
+	<link rel="stylesheet" href="./codebase/controls_styles.css?v=8.0.9">
+
+	<script src="./codebase/testdata.js?v=8.0.9"></script>
+	<style>
+
+
+
+		html, body {
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		.weekend {
+			background: #f4f7f4 !important;
+		}
+		.status_line {
+		background-color: #0ca30a;
+		}
+		.today {
+		background-color: #0ca30a;
+		}
+
+		.task_groups {
+			background-color: orangered !important;
+		}
+
+		.task_groups .gantt_task_progress {
+			background-color: red;
+			opacity: 0.6;
+		}
+		.gantt_task_row.gantt_selected .weekend {
+			background-color: #C0E8FF !important;
+		}
+		.gantt_task_progress {
+			text-align: left;
+			padding-left: 10px;
+			box-sizing: border-box;
+			color: white;
+			font-weight: bold;
+		}
+
+	</style>
+</head>
+
+<body>
+<form class="gantt_control">
+	<input type=button value="Close All" onclick=collapseAll()>
+	<input type=button value="Open All" onclick=expandAll()>
+	<input type="button" value="Zoom In" onclick="zoomIn()">
+	<input type="button" value="Zoom Out" onclick="zoomOut()">
+	<span>-----</span>
+	<input type="button" value="Save" onclick="save()">
+
+	<input type="button" value="Load DATA" onclick="abcdr2()">	<span>-----</span>
+	<input value="Undo" type="button" onclick='gantt.undo()' style='margin:0 15px;'>
+	<input value="Redo" type="button" onclick='gantt.redo()' style='margin:0 15px;'>
+	<input type="button" value="Load DATA" onclick="abcdr2()">	<span>-----</span>
+	<input value="Reload Table" type="button" onclick='reload()' style='color:#0ca30a; margin:0 15px;'>
+</form>
+<div id="gantt_here" style='width:100%; height:calc(100vh - 52px);'></div>
+
+<script>
+	var zoomConfig = {
+		levels: [
+			{
+				name:"day",
+				scale_height: 27,
+				min_column_width:80,
+				scales:[
+					{unit: "day", step: 1, format: "%d %M"}
+				]
+			},
+			{
+				name:"week",
+				scale_height: 50,
+				min_column_width:50,
+				scales:[
+					{unit: "week", step: 1, format: function (date) {
+						var dateToStr = gantt.date.date_to_str("%d %M");
+						var endDate = gantt.date.add(date, -6, "day");
+						var weekNum = gantt.date.date_to_str("%W")(date);
+						return "#" + weekNum + ", " + dateToStr(date) + " - " + dateToStr(endDate);
+					}},
+					{unit: "day", step: 1, format: "%j %D"}
+				]
+			},
+			{
+				name:"month",
+				scale_height: 50,
+				min_column_width:120,
+				scales:[
+					{unit: "month", format: "%F, %Y"},
+					{unit: "week", format: "Week #%W"}
+				]
+			},
+			{
+				name:"quarter",
+				height: 50,
+				min_column_width:90,
+				scales:[
+					{unit: "month", step: 1, format: "%M"},
+					{
+						unit: "quarter", step: 1, format: function (date) {
+							var dateToStr = gantt.date.date_to_str("%M");
+							var endDate = gantt.date.add(gantt.date.add(date, 3, "month"), -1, "day");
+							return dateToStr(date) + " - " + dateToStr(endDate);
+						}
+					}
+				]
+			},
+			{
+				name:"year",
+				scale_height: 50,
+				min_column_width: 30,
+				scales:[
+					{unit: "year", step: 1, format: "%Y"}
+				]
+			}
+		]
+	};
+	var tt={}
+	var dataTest= {
+	"name": "gantt.json",
+	"data": {
+		"data": [
+			{
+				"start_date": "2018-04-01 00:00:00",
+				"end_date": "2018-04-06 00:00:00",
+				"id": 1,
+				"duration": 5,
+				"text": "Project #1",
+				"progress": 0.8,
+				"sortorder": 20,
+				"parent": 0,
+				"open": true,
+				"$2": "Project #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 2,
+				"duration": 4,
+				"text": "Task #1",
+				"progress": 0.5,
+				"sortorder": 10,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-05 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 5,
+				"duration": 5,
+				"text": "Task #1.1",
+				"progress": 0.34,
+				"sortorder": 10,
+				"parent": 2,
+				"open": true,
+				"$2": "Task #1.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-11 13:22:17",
+				"end_date": "2018-04-15 13:22:17",
+				"id": 6,
+				"duration": 4,
+				"text": "Task #1.2",
+				"progress": 0.491477,
+				"sortorder": 20,
+				"parent": 2,
+				"open": true,
+				"$2": "Task #1.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-05 00:00:00",
+				"end_date": "2018-04-11 00:00:00",
+				"id": 3,
+				"duration": 6,
+				"text": "Task #2",
+				"progress": 0.7,
+				"sortorder": 20,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-12 00:00:00",
+				"id": 7,
+				"duration": 5,
+				"text": "Task #2.1",
+				"progress": 0.2,
+				"sortorder": 10,
+				"parent": 3,
+				"open": true,
+				"$2": "Task #2.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 8,
+				"duration": 4,
+				"text": "Task #2.2",
+				"progress": 0.9,
+				"sortorder": 20,
+				"parent": 3,
+				"open": true,
+				"$2": "Task #2.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-09 00:00:00",
+				"id": 4,
+				"duration": 2,
+				"text": "Task #3",
+				"progress": 0,
+				"sortorder": 30,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-11 00:00:00",
+				"id": 9,
+				"duration": 5,
+				"text": "Task #3.1",
+				"progress": 1,
+				"sortorder": 10,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 10,
+				"duration": 3,
+				"text": "Task #3.2",
+				"progress": 1,
+				"sortorder": 20,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-11 00:00:00",
+				"end_date": "2018-04-15 00:00:00",
+				"id": 11,
+				"duration": 4,
+				"text": "Task #3.3",
+				"progress": 0.33,
+				"sortorder": 30,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.3",
+				"$3": "",
+				"$4": ""
+			}
+		],
+		"links": [
+			{
+				"id": 1,
+				"source": 1,
+				"target": 2,
+				"type": "0"
+			},
+			{
+				"id": 2,
+				"source": 1,
+				"target": 3,
+				"type": "0"
+			},
+			{
+				"id": 3,
+				"source": 1,
+				"target": 4,
+				"type": "0"
+			},
+			{
+				"id": 4,
+				"source": 2,
+				"target": 6,
+				"type": "0"
+			},
+			{
+				"source": "10",
+				"target": "11",
+				"type": "0",
+				"id": 1721737599629
+			}
+		]
+	},
+	"config": {
+		"layout": {
+			"css": "gantt_container",
+			"rows": [
+				{
+					"cols": [
+						{
+							"view": "grid",
+							"scrollX": "scrollHor",
+							"scrollY": "scrollVer"
+						},
+						{
+							"resizer": true,
+							"width": 1
+						},
+						{
+							"view": "timeline",
+							"scrollX": "scrollHor",
+							"scrollY": "scrollVer"
+						},
+						{
+							"view": "scrollbar",
+							"id": "scrollVer"
+						}
+					]
+				},
+				{
+					"view": "scrollbar",
+					"id": "scrollHor",
+					"height": 20
+				}
+			],
+			"id": "main"
+		},
+		"links": {
+			"finish_to_start": "0",
+			"start_to_start": "1",
+			"finish_to_finish": "2",
+			"start_to_finish": "3"
+		},
+		"types": {
+			"task": "task",
+			"project": "project",
+			"milestone": "milestone",
+			"placeholder": "placeholder"
+		},
+		"auto_types": false,
+		"duration_unit": "day",
+		"work_time": false,
+		"correct_work_time": false,
+		"skip_off_time": false,
+		"cascade_delete": true,
+		"autosize": false,
+		"autosize_min_width": 0,
+		"autoscroll": true,
+		"autoscroll_speed": 30,
+		"deepcopy_on_parse": false,
+		"show_links": true,
+		"show_task_cells": true,
+		"static_background": false,
+		"static_background_cells": true,
+		"branch_loading": false,
+		"branch_loading_property": "$has_child",
+		"show_loading": false,
+		"show_chart": true,
+		"show_grid": true,
+		"min_duration": 3600000,
+		"date_format": "%Y-%m-%d %H:%i:%s",
+		"start_on_monday": true,
+		"server_utc": false,
+		"show_progress": true,
+		"fit_tasks": false,
+		"select_task": true,
+		"scroll_on_click": true,
+		"smart_rendering": true,
+		"preserve_scroll": true,
+		"readonly": false,
+		"container_resize_timeout": 20,
+		"date_grid": "%Y-%m-%d",
+		"drag_links": true,
+		"drag_progress": true,
+		"drag_resize": true,
+		"drag_project": false,
+		"drag_move": true,
+		"drag_mode": {
+			"resize": "resize",
+			"progress": "progress",
+			"move": "move",
+			"ignore": "ignore"
+		},
+		"round_dnd_dates": true,
+		"link_wrapper_width": 20,
+		"root_id": 0,
+		"autofit": false,
+		"columns": [
+			{
+				"name": "text",
+				"tree": true,
+				"width": 156,
+				"resize": true
+			},
+			{
+				"name": "start_date",
+				"align": "center",
+				"resize": true,
+				"width": 90
+			},
+			{
+				"name": "duration",
+				"align": "center",
+				"width": 70
+			},
+			{
+				"name": "add",
+				"width": 44,
+				"min_width": 44,
+				"max_width": 44
+			}
+		],
+		"scale_offset_minimal": true,
+		"inherit_scale_class": false,
+		"scales": [
+			{
+				"unit": "month",
+				"step": 1,
+				"format": "%F, %Y"
+			},
+			{
+				"unit": "day",
+				"step": 1,
+				"format": "%j, %D"
+			}
+		],
+		"time_step": 60,
+		"duration_step": 1,
+		"task_date": "%d %F %Y",
+		"time_picker": "%H:%i",
+		"task_attribute": "data-task-id",
+		"link_attribute": "data-link-id",
+		"layer_attribute": "data-layer",
+		"buttons_left": [
+			"gantt_save_btn",
+			"gantt_cancel_btn"
+		],
+		"_migrate_buttons": {
+			"dhx_save_btn": "gantt_save_btn",
+			"dhx_cancel_btn": "gantt_cancel_btn",
+			"dhx_delete_btn": "gantt_delete_btn"
+		},
+		"buttons_right": [
+			"gantt_delete_btn"
+		],
+		"lightbox": {
+			"sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true,
+					"id": "area_1721737599624",
+					"inputId": "input_1721737599626"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"map_to": "auto",
+					"id": "area_1721737599625",
+					"_time_format_order": {
+						"0": 0,
+						"1": 1,
+						"2": 2,
+						"size": 3
+					},
+					"inputId": "input_1721737599627"
+				}
+			],
+			"project_sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true
+				},
+				{
+					"name": "type",
+					"type": "typeselect",
+					"map_to": "type"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"readonly": true,
+					"map_to": "auto"
+				}
+			],
+			"milestone_sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true
+				},
+				{
+					"name": "type",
+					"type": "typeselect",
+					"map_to": "type"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"single_date": true,
+					"map_to": "auto"
+				}
+			]
+		},
+		"drag_lightbox": true,
+		"sort": false,
+		"details_on_create": true,
+		"details_on_dblclick": true,
+		"initial_scroll": true,
+		"task_scroll_offset": 100,
+		"order_branch": false,
+		"order_branch_free": false,
+		"bar_height": "full",
+		"min_column_width": 70,
+		"min_grid_column_width": 70,
+		"grid_resizer_column_attribute": "data-column-index",
+		"keep_grid_width": false,
+		"grid_resize": false,
+		"grid_elastic_columns": false,
+		"show_tasks_outside_timescale": false,
+		"show_unscheduled": true,
+		"resize_rows": false,
+		"task_grid_row_resizer_attribute": "data-row-index",
+		"min_task_grid_row_height": 30,
+		"readonly_property": "readonly",
+		"editable_property": "editable",
+		"calendar_property": "calendar_id",
+		"resource_calendars": {},
+		"dynamic_resource_calendars": false,
+		"inherit_calendar": false,
+		"type_renderers": {},
+		"open_tree_initially": false,
+		"optimize_render": true,
+		"prevent_default_scroll": false,
+		"show_errors": true,
+		"wai_aria_attributes": true,
+		"smart_scales": true,
+		"rtl": false,
+		"placeholder_task": false,
+		"horizontal_scroll_key": "shiftKey",
+		"drag_timeline": {
+			"ignore": ".gantt_task_line, .gantt_task_link"
+		},
+		"drag_multiple": true,
+		"csp": "auto",
+		"resources": {
+			"dataprocessor_assignments": false,
+			"dataprocessor_resources": false,
+			"editable_resource_diagram": false,
+			"resource_store": {
+				"type": "treeDataStore",
+				"fetchTasks": false
+			}
+		},
+		"resource_property": "owner_id",
+		"resource_store": "resource",
+		"resource_render_empty_cells": false,
+		"resource_assignment_store": "resourceAssignments",
+		"process_resource_assignments": true,
+		"show_empty_state": false,
+		"touch_drag": 500,
+		"touch": false,
+		"touch_feedback": true,
+		"touch_feedback_duration": 1,
+		"worktimes": {
+			"global": {
+				"hours": [
+					8,
+					12,
+					13,
+					17
+				],
+				"dates": {
+					"0": false,
+					"1": true,
+					"2": true,
+					"3": true,
+					"4": true,
+					"5": true,
+					"6": false
+				},
+				"parsed": {
+					"dates": {
+						"0": false,
+						"1": true,
+						"2": true,
+						"3": true,
+						"4": true,
+						"5": true,
+						"6": false
+					},
+					"hours": [
+						{
+							"start": 28800,
+							"end": 43200,
+							"startHour": 8,
+							"startMinute": 480,
+							"endHour": 12,
+							"endMinute": 720,
+							"durationSeconds": 14400,
+							"durationMinutes": 240,
+							"durationHours": 4
+						},
+						{
+							"start": 46800,
+							"end": 61200,
+							"startHour": 13,
+							"startMinute": 780,
+							"endHour": 17,
+							"endMinute": 1020,
+							"durationSeconds": 14400,
+							"durationMinutes": 240,
+							"durationHours": 4
+						}
+					],
+					"haveCustomWeeks": false,
+					"customWeeks": {},
+					"customWeeksRangeStart": null,
+					"customWeeksRangeEnd": null,
+					"customWeeksBoundaries": []
+				}
+			},
+			"fulltime": {
+				"hours": [
+					0,
+					24
+				],
+				"dates": {
+					"0": true,
+					"1": true,
+					"2": true,
+					"3": true,
+					"4": true,
+					"5": true,
+					"6": true
+				},
+				"parsed": {
+					"dates": {
+						"0": true,
+						"1": true,
+						"2": true,
+						"3": true,
+						"4": true,
+						"5": true,
+						"6": true
+					},
+					"hours": [
+						{
+							"start": 0,
+							"end": 86400,
+							"startHour": 0,
+							"startMinute": 0,
+							"endHour": 24,
+							"endMinute": 1440,
+							"durationSeconds": 86400,
+							"durationMinutes": 1440,
+							"durationHours": 24
+						}
+					],
+					"haveCustomWeeks": false,
+					"customWeeks": {},
+					"customWeeksRangeStart": null,
+					"customWeeksRangeEnd": null,
+					"customWeeksBoundaries": []
+				}
+			}
+		},
+		"scroll_size": 17,
+		"grid_width": 360,
+		"row_height": 35,
+		"scale_height": 35,
+		"link_line_width": 2,
+		"link_arrow_size": 6,
+		"lightbox_additional_height": 75
+	},
+	"columns": [
+		{
+			"id": "text",
+			"header": "Task name",
+			"width": 39
+		},
+		{
+			"id": "start_date",
+			"header": "Start time",
+			"width": 22,
+			"type": "date"
+		},
+		{
+			"id": "duration",
+			"header": "Duration",
+			"width": 17,
+			"type": "number"
+		}
+	],
+	"worktime": {
+		"hours": [
+			0,
+			24
+		],
+		"minutes": null,
+		"dates": {
+			"0": true,
+			"1": true,
+			"2": true,
+			"3": true,
+			"4": true,
+			"5": true,
+			"6": true
+		}
+	},
+	"version": "8.0.9",
+	"upload": null
+}
+	var data2 = {
+		"data": [
+			{
+				"start_date": "2018-04-01 00:00:00",
+				"end_date": "2018-04-06 00:00:00",
+				"id": 1,
+				"duration": 5,
+				"text": "Project #1",
+				"progress": 0.8,
+				"sortorder": 20,
+				"parent": 0,
+				"open": true,
+				"$2": "Project #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 2,
+				"duration": 4,
+				"text": "Task #1",
+				"progress": 0.5,
+				"sortorder": 10,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-05 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 5,
+				"duration": 5,
+				"text": "Task #1.1",
+				"progress": 0.34,
+				"sortorder": 10,
+				"parent": 2,
+				"open": true,
+				"$2": "Task #1.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-11 13:22:17",
+				"end_date": "2018-04-15 13:22:17",
+				"id": 6,
+				"duration": 4,
+				"text": "Task #1.2",
+				"progress": 0.491477,
+				"sortorder": 20,
+				"parent": 2,
+				"open": true,
+				"$2": "Task #1.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-05 00:00:00",
+				"end_date": "2018-04-11 00:00:00",
+				"id": 3,
+				"duration": 6,
+				"text": "Task #2",
+				"progress": 0.7,
+				"sortorder": 20,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-12 00:00:00",
+				"id": 7,
+				"duration": 5,
+				"text": "Task #2.1",
+				"progress": 0.2,
+				"sortorder": 10,
+				"parent": 3,
+				"open": true,
+				"$2": "Task #2.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 8,
+				"duration": 4,
+				"text": "Task #2.2",
+				"progress": 0.9,
+				"sortorder": 20,
+				"parent": 3,
+				"open": true,
+				"$2": "Task #2.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-09 00:00:00",
+				"id": 4,
+				"duration": 2,
+				"text": "Task #3",
+				"progress": 0,
+				"sortorder": 30,
+				"parent": 1,
+				"open": true,
+				"$2": "Task #3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-06 00:00:00",
+				"end_date": "2018-04-11 00:00:00",
+				"id": 9,
+				"duration": 5,
+				"text": "Task #3.1",
+				"progress": 1,
+				"sortorder": 10,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-07 00:00:00",
+				"end_date": "2018-04-10 00:00:00",
+				"id": 10,
+				"duration": 3,
+				"text": "Task #3.2",
+				"progress": 1,
+				"sortorder": 20,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"start_date": "2018-04-11 00:00:00",
+				"end_date": "2018-04-15 00:00:00",
+				"id": 11,
+				"duration": 4,
+				"text": "Task #3.3",
+				"progress": 0.33,
+				"sortorder": 30,
+				"parent": 4,
+				"open": true,
+				"$2": "Task #3.3",
+				"$3": "",
+				"$4": ""
+			}
+		],
+		"links": [
+			{
+				"id": 1,
+				"source": 1,
+				"target": 2,
+				"type": "0"
+			},
+			{
+				"id": 2,
+				"source": 1,
+				"target": 3,
+				"type": "0"
+			},
+			{
+				"id": 3,
+				"source": 1,
+				"target": 4,
+				"type": "0"
+			},
+			{
+				"id": 4,
+				"source": 2,
+				"target": 6,
+				"type": "0"
+			},
+			{
+				"source": "10",
+				"target": "11",
+				"type": "0",
+				"id": 1721737599629
+			}
+		]
+	
+			};
+	var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+
+	gantt.plugins({
+		export_api: true,
+		marker: true,
+		grouping: true,
+		undo: true
+	});
+	gantt.locale.labels["section_parent"] = "Parent task";
+	gantt.locale.labels["section_priority"] = "Priority";
+	gantt.locale.labels["section_owner"] = "Sorumlu";
+	gantt.attachEvent("onBeforeRowDragEnd", function (id, parent, tindex) {
+		gantt.modalbox({
+			text: "Do you want to move the task or copy it?",
+			buttons: ["Move", "Copy", "Cancel"],
+			callback: function (result) {
+				switch (result) {
+					case "0":
+						gantt.moveTask(id, tindex, parent);
+						break;
+					case "1":
+						const task = gantt.getTask(id);
+						const clone = gantt.copy(task);
+						clone.id = gantt.uid();
+
+						gantt.addTask(clone, parent, tindex)
+						break;
+					case "2":
+						//Cancel
+						break;
+				}
+			}
+		});
+		return false;
+	});
+	gantt.serverList("priorityOptions", [
+		{key: "task", label: "task"}, 
+		{key: "project", label: "Project"}
+	]);
+	gantt.serverList("priority", [
+			{ key: 1, label: "High" },
+			{ key: 2, label: "Normal" },
+			{ key: 3, label: "Low" }
+		]);
+	gantt.serverList("owner", [
+			{ key: 1, label: "Elektrik" },
+			{ key: 2, label: "Meknanik" },
+			{ key: 3, label: "Borulama" },
+			{ key: 4, label: "İnşaat" },
+			{ key: 5, label: "Satınalma" },
+			{ key: 6, label: "Aktifsel" }
+		]);
+
+	// Configs
+	gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
+	gantt.config.work_time = true;
+	function priorityLabel(task){
+		var value = task.priority;
+		var list = gantt.serverList("priority");
+		for(var i = 0; i < list.length; i++){
+			if(list[i].key == value){
+				return list[i].label;
+			}
+		}
+		return "";
+	}
+
+	function ownerLAbel(task){
+		var value = task.owner;
+		var list = gantt.serverList("owner");
+		// if (value.length = 0) {
+		// /* do something */
+		// return 	"";
+		// } else if (value.length = 1) {
+		// /* do something */
+		// for(var i = 0; i < list.length; i++){if(list[i].key == value){return list[i].label;	}}
+		// } else {
+		// /* do something */
+		// }
+		// console.log(value.length)
+
+
+		// if (value == undefined){
+		// 			console.log("unindetified")
+		// 			return "";		} 
+		// else if (value.length = 0){
+		// 			return 	"";	}
+		// else if (value.length = 1){
+		// 			for(var i = 0; i < list.length; i++){if(list[i].key == value){return list[i].label;	}}
+		// } else {
+		// 			return "2 den büüyk değer ";
+		// }
+				
+			
+		
+		
+		
+		// try {
+		// if (value.length = 0) {
+		// 		/* do something */
+		// 		return 	"";
+		// 		} else if (value.length = 1) {
+		// 		/* do something */
+		// 		for(var i = 0; i < list.length; i++){if(list[i].key == value){return list[i].label;	}}
+		// 		} else {
+		// 			console.log(value.length)
+		// 		}
+
+		 
+		// }catch (error) {
+		// console.error(error);
+		// }
+
+		for(var i = 0; i < list.length; i++){
+		if(list[i].key == value){
+			return list[i].label; }
+		}
+		return 	"";
+	}
+	gantt.config.columns =  [
+    {name:"text",       label:"Task name",  min_width: 150, max_width:300, tree:true},
+    // {name:"holder",     label:"Holder",     align:"center" },
+    {name:"start_date", label:"Start time", align:"center" },
+    // {name:"end_date",   label:"End date",   align:"center" },
+	{name:"duration",   label:"Duration",   align:"center" },
+	{name:"owner",   label:"Owner", width:80, align: "center",  template: ownerLAbel, resize: true},
+	{name:"priority", label:"Priority", width:80, align: "center",  template: priorityLabel, resize: true},
+	{name:"add",        label:"",           width:44 }
+];
+	gantt.config.min_column_width = 120;
+	gantt.config.lightbox.sections = [
+		{name: "description", height: 38, map_to: "text", type: "textarea", focus: true},
+		{
+			name: "parent", type: "parent", allow_root: "true", root_label: "No parent", filter: function (id, task) {
+				/*	if(task.$level > 1){
+						return false;
+					}else{
+						return true;
+					}*/
+				return true;
+			}
+		},
+
+		{name: "time", type: "duration", map_to: "auto", year_range: [2010, 2025]},
+		{
+			name: "type",
+			height: 22,
+			map_to: "type",
+			type: "select",
+			options: gantt.serverList("priorityOptions")
+		},
+		{ name: "priority", type: "select", map_to: "priority", options: gantt.serverList("priority") },
+		{ name: "owner", type: "checkbox", map_to: "owner", options: gantt.serverList("owner") }
+	];
+	gantt.config.order_branch = "marker";
+	gantt.config.order_branch_free = true;
+	// gantt.config.auto_scheduling = true;
+	// gantt.config.auto_scheduling_strict = true;
+	// TEMPLATES
+	gantt.templates.rightside_text = function(start, end, task) {
+		if (task.type === gantt.config.types.milestone)
+			return task.text;
+		return ""
+	};
+	gantt.templates.progress_text = function (start, end, task) {
+		return "<span style='text-align:left;'>" + Math.round(task.progress * 100) + "% </span>";
+	};
+	gantt.templates.scale_cell_class = function (date) {
+		if (date.getDay() == 0 || date.getDay() == 6) {
+			return "weekend";
+		}
+	};
+	gantt.templates.timeline_cell_class = function (item, date) {
+		if (date.getDay() == 0 || date.getDay() == 6) {
+			return "weekend"
+		}
+	};	
+	gantt.templates.rightside_text = function(start, end, task) {
+		if (task.type === gantt.config.types.milestone)
+			return task.text;
+		return ""
+	};
+	gantt.templates.timeline_cell_class = function (item, date) {
+		if (!gantt.isWorkTime({date: date, task: item})) {
+			return "weekend";
+		}
+	};
+	gantt.templates.rightside_text = function(start, end, task) {
+		if (task.type === gantt.config.types.milestone)
+			return task.text;
+		return ""
+	};
+	
+	// Gantt. Calculate progress of a parent task dynamically
+	gantt.attachEvent("onAfterTaskUpdate", function (id, task) {
+    parentProgress(id)
+	});
+	gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
+		if (mode == "progress") {
+			parentProgress(id)
+		}
+	});
+	gantt.attachEvent("onAfterTaskAdd", function (id) {
+		parentProgress(id)
+	});
+	gantt.attachEvent("onAfterTaskDelete", function (id, task) {
+		if (task.parent) {
+			const siblings = gantt.getChildren(task.parent);
+			if (siblings.length) {
+				parentProgress(siblings[0])
+			}
+		}
+	});
+	function parentProgress(id) {
+		gantt.eachParent(function (task) {
+			const children = gantt.getChildren(task.id);
+			let childProgress = 0;
+			for (let i = 0; i < children.length; i++) {
+				const child = gantt.getTask(children[i])
+				childProgress += (child.progress * 100);
+			}
+			task.progress = childProgress / children.length / 100;
+		}, id)
+		gantt.render();
+	}
+	
+	// Gantt. Change task progress to the current date (Update Project)
+	// gantt.plugins({
+	// 	marker: true
+	// });
+
+	gantt.addMarker({
+		id: "todays",
+		start_date: new Date(2024, 7, 7),
+		css: "todays",
+		text: "Today"
+	});
+	gantt.ext.zoom.init(zoomConfig);
+	gantt.ext.zoom.setLevel("day");
+
+	gantt.init("gantt_here");
+	abcdr2();
+	// gantt.load("./data.json", "json");
+	
+	//Funtions 
+	function reload(){
+		gantt.refreshData()
+	}
+	function save(){
+		gantt.exportToJSON({
+		name:"gantt.json"
+	});
+	
+	}
+	function zoomIn(){
+		gantt.ext.zoom.zoomIn();
+	}
+	function zoomOut(){
+		gantt.ext.zoom.zoomOut();
+	}
+	function abcdr(){
+		gantt.clearAll(); 
+		gantt.parse(data2);
+			
+	};
+	function abcdr2(){
+		fetch("./__saveFile/gantt.json")
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error
+                            (`HTTP error! Status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then((data) => 
+                    //   console.log(data))
+					  updateGantt(data))
+					//   var data99 = data
+                .catch((error) => 
+                       console.error("Unable to fetch data:", error));		
+	};
+	function updateGantt (data){
+			gantt.clearAll(); 
+			console.log(data);
+			tt = data.data
+			gantt.parse(tt);
+	}
+	// function fetchJSONData() {
+    //         fetch("./ganttx.json")
+    //             .then((res) => {
+    //                 if (!res.ok) {
+    //                     throw new Error
+    //                         (`HTTP error! Status: ${res.status}`);
+    //                 }
+    //                 return res.json();
+    //             })
+    //             .then((data) => 
+    //                   console.log(data))
+    //             .catch((error) => 
+    //                    console.error("Unable to fetch data:", error));
+    //     }
+
+	// (function() {
+	// 	var highlightTasks = [],
+	// 		highlightSearch = {};
+
+	// 	function reset(value) {
+	// 		if (value) {
+	// 			if (value.join() === highlightTasks.join()) {
+	// 			    return;
+	// 			}
+	// 			highlightTasks = value;
+	// 			highlightSearch = {};
+	// 			highlightTasks.forEach(function(id){
+	// 				highlightSearch[id] = true;
+	// 			});
+	// 			gantt.render();
+	// 		}
+	// 		else if (highlightTasks.length) {
+	// 			highlightTasks = [];
+	// 			highlightSearch = {};
+	// 			gantt.render();
+	// 		}
+	// 	}
+
+	// 	gantt.templates.task_class = function(start, end, task) {
+	// 		if (highlightSearch[task.id])
+	// 			return "task_groups";
+	// 		return "";
+	// 	};
+
+	// 	gantt.attachEvent("onTaskClick", function(id) {
+	// 		var task = gantt.getTask(id);
+	// 		var group = gantt.getConnectedGroup(id);
+	// 		if(!group.tasks.length){
+	// 			reset();
+	// 		}else{
+	// 			reset(group.tasks);
+	// 			gantt.message({
+	// 				text: "<strong>Selected task:</strong> " + task.text +
+	// 					"<br><strong>Connected Group:</strong><br> " +
+	// 					group.tasks.map(function(t) { return gantt.getTask(t).text}).join("<br>"),
+	// 				expire: 5000
+	// 				}
+	// 			);
+	// 		}
+
+	// 		return true;
+	// 	});
+	// 	gantt.message({text:"Click any task to highlight the connected group", expire:-1});
+
+	// 	gantt.attachEvent("onEmptyClick", function() {
+	// 		reset();
+	// 		return true;
+	// 	});
+
+	// })();
+	function collapseAll() {
+    gantt.batchUpdate(function () {
+        gantt.eachTask(function (task) {
+            gantt.close(task.id)
+        })
+    })
+}
+	function expandAll() {
+    gantt.batchUpdate(function () {
+        gantt.eachTask(function (task) {
+            gantt.open(task.id)
+        })
+    })
+}
+	
+</script>
+</body>

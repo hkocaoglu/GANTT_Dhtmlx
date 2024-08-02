@@ -1,0 +1,879 @@
+{
+	"name": "gantt.json",
+	"data": {
+		"data": [
+			{
+				"id": 11,
+				"text": "Project #1",
+				"start_date": "28-03-2023 00:00",
+				"duration": 11,
+				"progress": 0.6,
+				"open": true,
+				"end_date": "08-04-2023 00:00",
+				"parent": 0,
+				"$2": "Project #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 12,
+				"text": "Task #1",
+				"start_date": "03-04-2023 00:00",
+				"duration": 5,
+				"parent": "11",
+				"progress": 1,
+				"open": true,
+				"end_date": "08-04-2023 00:00",
+				"$2": "Task #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 13,
+				"text": "Task #2",
+				"start_date": "02-04-2023 00:00",
+				"duration": 7,
+				"parent": "11",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "09-04-2023 00:00",
+				"$2": "Task #2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 17,
+				"text": "Task #2.1",
+				"start_date": "03-04-2023 00:00",
+				"duration": 2,
+				"parent": "13",
+				"progress": 1,
+				"open": true,
+				"end_date": "05-04-2023 00:00",
+				"$2": "Task #2.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 18,
+				"text": "Task #2.2",
+				"start_date": "06-04-2023 00:00",
+				"duration": 3,
+				"parent": "13",
+				"progress": 0.8,
+				"open": true,
+				"end_date": "09-04-2023 00:00",
+				"$2": "Task #2.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 19,
+				"text": "Task #2.3",
+				"start_date": "10-04-2023 00:00",
+				"duration": 4,
+				"parent": "13",
+				"progress": 0.2,
+				"open": true,
+				"end_date": "14-04-2023 00:00",
+				"$2": "Task #2.3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 20,
+				"text": "Task #2.4",
+				"start_date": "10-04-2023 00:00",
+				"duration": 4,
+				"parent": "13",
+				"progress": 0,
+				"open": true,
+				"end_date": "14-04-2023 00:00",
+				"$2": "Task #2.4",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 14,
+				"text": "Task #3",
+				"start_date": "02-04-2023 00:00",
+				"duration": 6,
+				"parent": "11",
+				"progress": 0.8,
+				"open": true,
+				"end_date": "08-04-2023 00:00",
+				"$2": "Task #3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 15,
+				"text": "Task #4",
+				"start_date": "02-04-2023 00:00",
+				"duration": 5,
+				"parent": "11",
+				"progress": 0.2,
+				"open": true,
+				"end_date": "07-04-2023 00:00",
+				"$2": "Task #4",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 21,
+				"text": "Task #4.1",
+				"start_date": "03-04-2023 00:00",
+				"duration": 4,
+				"parent": "15",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "07-04-2023 00:00",
+				"$2": "Task #4.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 22,
+				"text": "Task #4.2",
+				"start_date": "03-04-2023 00:00",
+				"duration": 4,
+				"parent": "15",
+				"progress": 0.1,
+				"open": true,
+				"end_date": "07-04-2023 00:00",
+				"$2": "Task #4.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 23,
+				"text": "Task #4.3",
+				"start_date": "03-04-2023 00:00",
+				"duration": 5,
+				"parent": "15",
+				"progress": 0,
+				"open": true,
+				"end_date": "08-04-2023 00:00",
+				"$2": "Task #4.3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 16,
+				"text": "Task #5",
+				"start_date": "02-04-2023 00:00",
+				"duration": 7,
+				"parent": "11",
+				"progress": 0,
+				"open": true,
+				"end_date": "09-04-2023 00:00",
+				"$2": "Task #5",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 1,
+				"text": "Project #2",
+				"start_date": "01-04-2023 00:00",
+				"duration": 18,
+				"progress": 0.4,
+				"open": true,
+				"end_date": "19-04-2023 00:00",
+				"parent": 0,
+				"$2": "Project #2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 2,
+				"text": "Task #1",
+				"start_date": "02-04-2023 00:00",
+				"duration": 8,
+				"parent": "1",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "10-04-2023 00:00",
+				"$2": "Task #1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 5,
+				"text": "Task #1.1",
+				"start_date": "02-04-2023 00:00",
+				"duration": 7,
+				"parent": "2",
+				"progress": 0.6,
+				"open": true,
+				"end_date": "09-04-2023 00:00",
+				"$2": "Task #1.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 6,
+				"text": "Task #1.2",
+				"start_date": "03-04-2023 00:00",
+				"duration": 7,
+				"parent": "2",
+				"progress": 0.6,
+				"open": true,
+				"end_date": "10-04-2023 00:00",
+				"$2": "Task #1.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 3,
+				"text": "Task #2",
+				"start_date": "11-04-2023 00:00",
+				"duration": 8,
+				"parent": "1",
+				"progress": 0.6,
+				"open": true,
+				"end_date": "19-04-2023 00:00",
+				"$2": "Task #2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 7,
+				"text": "Task #2.1",
+				"start_date": "11-04-2023 00:00",
+				"duration": 8,
+				"parent": "3",
+				"progress": 0.6,
+				"open": true,
+				"end_date": "19-04-2023 00:00",
+				"$2": "Task #2.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 4,
+				"text": "Task #3",
+				"start_date": "13-04-2023 00:00",
+				"duration": 6,
+				"parent": "1",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "19-04-2023 00:00",
+				"$2": "Task #3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 8,
+				"text": "Task #3.1",
+				"start_date": "14-04-2023 00:00",
+				"duration": 5,
+				"parent": "4",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "19-04-2023 00:00",
+				"$2": "Task #3.1",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 9,
+				"text": "Task #3.2",
+				"start_date": "14-04-2023 00:00",
+				"duration": 4,
+				"parent": "4",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "18-04-2023 00:00",
+				"$2": "Task #3.2",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 10,
+				"text": "Task #3.3",
+				"start_date": "14-04-2023 00:00",
+				"duration": 3,
+				"parent": "4",
+				"progress": 0.5,
+				"open": true,
+				"end_date": "17-04-2023 00:00",
+				"$2": "Task #3.3",
+				"$3": "",
+				"$4": ""
+			},
+			{
+				"id": 1719579274076,
+				"start_date": "18-04-2023 00:00",
+				"text": "test",
+				"duration": 1,
+				"parent": "4",
+				"end_date": "19-04-2023 00:00",
+				"progress": 0,
+				"$2": "test",
+				"$3": "",
+				"$4": ""
+			}
+		],
+		"links": [
+			{
+				"id": "1",
+				"source": "1",
+				"target": "2",
+				"type": "1"
+			},
+			{
+				"id": "2",
+				"source": "2",
+				"target": "3",
+				"type": "0"
+			},
+			{
+				"id": "3",
+				"source": "3",
+				"target": "4",
+				"type": "0"
+			},
+			{
+				"id": "4",
+				"source": "2",
+				"target": "5",
+				"type": "2"
+			},
+			{
+				"id": "5",
+				"source": "2",
+				"target": "6",
+				"type": "2"
+			},
+			{
+				"id": "6",
+				"source": "3",
+				"target": "7",
+				"type": "2"
+			},
+			{
+				"id": "7",
+				"source": "4",
+				"target": "8",
+				"type": "2"
+			},
+			{
+				"id": "8",
+				"source": "4",
+				"target": "9",
+				"type": "2"
+			},
+			{
+				"id": "9",
+				"source": "4",
+				"target": "10",
+				"type": "2"
+			},
+			{
+				"id": "10",
+				"source": "11",
+				"target": "12",
+				"type": "1"
+			},
+			{
+				"id": "11",
+				"source": "11",
+				"target": "13",
+				"type": "1"
+			},
+			{
+				"id": "12",
+				"source": "11",
+				"target": "14",
+				"type": "1"
+			},
+			{
+				"id": "13",
+				"source": "11",
+				"target": "15",
+				"type": "1"
+			},
+			{
+				"id": "14",
+				"source": "11",
+				"target": "16",
+				"type": "1"
+			},
+			{
+				"id": "15",
+				"source": "13",
+				"target": "17",
+				"type": "1"
+			},
+			{
+				"id": "16",
+				"source": "17",
+				"target": "18",
+				"type": "0"
+			},
+			{
+				"id": "17",
+				"source": "18",
+				"target": "19",
+				"type": "0"
+			},
+			{
+				"id": "18",
+				"source": "19",
+				"target": "20",
+				"type": "0"
+			},
+			{
+				"id": "19",
+				"source": "15",
+				"target": "21",
+				"type": "2"
+			},
+			{
+				"id": "20",
+				"source": "15",
+				"target": "22",
+				"type": "2"
+			},
+			{
+				"id": "21",
+				"source": "15",
+				"target": "23",
+				"type": "2"
+			},
+			{
+				"source": "10",
+				"target": "1719579274076",
+				"type": "0",
+				"id": 1719579274077
+			}
+		]
+	},
+	"config": {
+		"layout": {
+			"css": "gantt_container",
+			"rows": [
+				{
+					"cols": [
+						{
+							"view": "grid",
+							"scrollX": "scrollHor",
+							"scrollY": "scrollVer"
+						},
+						{
+							"resizer": true,
+							"width": 1
+						},
+						{
+							"view": "timeline",
+							"scrollX": "scrollHor",
+							"scrollY": "scrollVer"
+						},
+						{
+							"view": "scrollbar",
+							"id": "scrollVer"
+						}
+					]
+				},
+				{
+					"view": "scrollbar",
+					"id": "scrollHor",
+					"height": 20
+				}
+			],
+			"id": "main"
+		},
+		"links": {
+			"finish_to_start": "0",
+			"start_to_start": "1",
+			"finish_to_finish": "2",
+			"start_to_finish": "3"
+		},
+		"types": {
+			"task": "task",
+			"project": "project",
+			"milestone": "milestone",
+			"placeholder": "placeholder"
+		},
+		"auto_types": false,
+		"duration_unit": "day",
+		"work_time": false,
+		"correct_work_time": false,
+		"skip_off_time": false,
+		"cascade_delete": true,
+		"autosize": false,
+		"autosize_min_width": 0,
+		"autoscroll": true,
+		"autoscroll_speed": 30,
+		"deepcopy_on_parse": false,
+		"show_links": true,
+		"show_task_cells": true,
+		"static_background": false,
+		"static_background_cells": true,
+		"branch_loading": false,
+		"branch_loading_property": "$has_child",
+		"show_loading": false,
+		"show_chart": true,
+		"show_grid": true,
+		"min_duration": 3600000,
+		"date_format": "%d-%m-%Y %H:%i",
+		"start_on_monday": true,
+		"server_utc": false,
+		"show_progress": true,
+		"fit_tasks": false,
+		"select_task": true,
+		"scroll_on_click": true,
+		"smart_rendering": true,
+		"preserve_scroll": true,
+		"readonly": false,
+		"container_resize_timeout": 20,
+		"date_grid": "%Y-%m-%d",
+		"drag_links": true,
+		"drag_progress": true,
+		"drag_resize": true,
+		"drag_project": false,
+		"drag_move": true,
+		"drag_mode": {
+			"resize": "resize",
+			"progress": "progress",
+			"move": "move",
+			"ignore": "ignore"
+		},
+		"round_dnd_dates": true,
+		"link_wrapper_width": 20,
+		"root_id": 0,
+		"autofit": false,
+		"columns": [
+			{
+				"name": "text",
+				"tree": true,
+				"width": 156,
+				"resize": true
+			},
+			{
+				"name": "start_date",
+				"align": "center",
+				"resize": true,
+				"width": 90
+			},
+			{
+				"name": "duration",
+				"align": "center",
+				"width": 70
+			},
+			{
+				"name": "add",
+				"width": 44,
+				"min_width": 44,
+				"max_width": 44
+			}
+		],
+		"scale_offset_minimal": true,
+		"inherit_scale_class": false,
+		"scales": [
+			{
+				"unit": "week",
+				"step": 1
+			},
+			{
+				"unit": "day",
+				"step": 1,
+				"format": "%j %D"
+			}
+		],
+		"time_step": 60,
+		"duration_step": 1,
+		"task_date": "%d %F %Y",
+		"time_picker": "%H:%i",
+		"task_attribute": "data-task-id",
+		"link_attribute": "data-link-id",
+		"layer_attribute": "data-layer",
+		"buttons_left": [
+			"gantt_save_btn",
+			"gantt_cancel_btn"
+		],
+		"_migrate_buttons": {
+			"dhx_save_btn": "gantt_save_btn",
+			"dhx_cancel_btn": "gantt_cancel_btn",
+			"dhx_delete_btn": "gantt_delete_btn"
+		},
+		"buttons_right": [
+			"gantt_delete_btn"
+		],
+		"lightbox": {
+			"sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true,
+					"id": "area_1719579274072",
+					"inputId": "input_1719579274074"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"map_to": "auto",
+					"id": "area_1719579274073",
+					"_time_format_order": {
+						"0": 0,
+						"1": 1,
+						"2": 2,
+						"size": 3
+					},
+					"inputId": "input_1719579274075"
+				}
+			],
+			"project_sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true
+				},
+				{
+					"name": "type",
+					"type": "typeselect",
+					"map_to": "type"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"readonly": true,
+					"map_to": "auto"
+				}
+			],
+			"milestone_sections": [
+				{
+					"name": "description",
+					"height": 70,
+					"map_to": "text",
+					"type": "textarea",
+					"focus": true
+				},
+				{
+					"name": "type",
+					"type": "typeselect",
+					"map_to": "type"
+				},
+				{
+					"name": "time",
+					"type": "duration",
+					"single_date": true,
+					"map_to": "auto"
+				}
+			]
+		},
+		"drag_lightbox": true,
+		"sort": false,
+		"details_on_create": true,
+		"details_on_dblclick": true,
+		"initial_scroll": true,
+		"task_scroll_offset": 100,
+		"order_branch": false,
+		"order_branch_free": false,
+		"bar_height": "full",
+		"min_column_width": 50,
+		"min_grid_column_width": 70,
+		"grid_resizer_column_attribute": "data-column-index",
+		"keep_grid_width": false,
+		"grid_resize": false,
+		"grid_elastic_columns": false,
+		"show_tasks_outside_timescale": false,
+		"show_unscheduled": true,
+		"resize_rows": false,
+		"task_grid_row_resizer_attribute": "data-row-index",
+		"min_task_grid_row_height": 30,
+		"readonly_property": "readonly",
+		"editable_property": "editable",
+		"calendar_property": "calendar_id",
+		"resource_calendars": {},
+		"dynamic_resource_calendars": false,
+		"inherit_calendar": false,
+		"type_renderers": {},
+		"open_tree_initially": false,
+		"optimize_render": true,
+		"prevent_default_scroll": false,
+		"show_errors": true,
+		"wai_aria_attributes": true,
+		"smart_scales": true,
+		"rtl": false,
+		"placeholder_task": false,
+		"horizontal_scroll_key": "shiftKey",
+		"drag_timeline": {
+			"ignore": ".gantt_task_line, .gantt_task_link"
+		},
+		"drag_multiple": true,
+		"csp": "auto",
+		"resources": {
+			"dataprocessor_assignments": false,
+			"dataprocessor_resources": false,
+			"editable_resource_diagram": false,
+			"resource_store": {
+				"type": "treeDataStore",
+				"fetchTasks": false
+			}
+		},
+		"resource_property": "owner_id",
+		"resource_store": "resource",
+		"resource_render_empty_cells": false,
+		"resource_assignment_store": "resourceAssignments",
+		"process_resource_assignments": true,
+		"show_empty_state": false,
+		"touch_drag": 500,
+		"touch": false,
+		"touch_feedback": true,
+		"touch_feedback_duration": 1,
+		"scale_height": 50,
+		"start_date": "01-09-2022 00:00",
+		"end_date": "01-11-2023 00:00",
+		"worktimes": {
+			"global": {
+				"hours": [
+					8,
+					12,
+					13,
+					17
+				],
+				"dates": {
+					"0": false,
+					"1": true,
+					"2": true,
+					"3": true,
+					"4": true,
+					"5": true,
+					"6": false
+				},
+				"parsed": {
+					"dates": {
+						"0": false,
+						"1": true,
+						"2": true,
+						"3": true,
+						"4": true,
+						"5": true,
+						"6": false
+					},
+					"hours": [
+						{
+							"start": 28800,
+							"end": 43200,
+							"startHour": 8,
+							"startMinute": 480,
+							"endHour": 12,
+							"endMinute": 720,
+							"durationSeconds": 14400,
+							"durationMinutes": 240,
+							"durationHours": 4
+						},
+						{
+							"start": 46800,
+							"end": 61200,
+							"startHour": 13,
+							"startMinute": 780,
+							"endHour": 17,
+							"endMinute": 1020,
+							"durationSeconds": 14400,
+							"durationMinutes": 240,
+							"durationHours": 4
+						}
+					],
+					"haveCustomWeeks": false,
+					"customWeeks": {},
+					"customWeeksRangeStart": null,
+					"customWeeksRangeEnd": null,
+					"customWeeksBoundaries": []
+				}
+			},
+			"fulltime": {
+				"hours": [
+					0,
+					24
+				],
+				"dates": {
+					"0": true,
+					"1": true,
+					"2": true,
+					"3": true,
+					"4": true,
+					"5": true,
+					"6": true
+				},
+				"parsed": {
+					"dates": {
+						"0": true,
+						"1": true,
+						"2": true,
+						"3": true,
+						"4": true,
+						"5": true,
+						"6": true
+					},
+					"hours": [
+						{
+							"start": 0,
+							"end": 86400,
+							"startHour": 0,
+							"startMinute": 0,
+							"endHour": 24,
+							"endMinute": 1440,
+							"durationSeconds": 86400,
+							"durationMinutes": 1440,
+							"durationHours": 24
+						}
+					],
+					"haveCustomWeeks": false,
+					"customWeeks": {},
+					"customWeeksRangeStart": null,
+					"customWeeksRangeEnd": null,
+					"customWeeksBoundaries": []
+				}
+			}
+		},
+		"scroll_size": 17,
+		"grid_width": 360,
+		"row_height": 35,
+		"link_line_width": 2,
+		"link_arrow_size": 6,
+		"lightbox_additional_height": 75
+	},
+	"columns": [
+		{
+			"id": "text",
+			"header": "Task name",
+			"width": 39
+		},
+		{
+			"id": "start_date",
+			"header": "Start time",
+			"width": 22,
+			"type": "date"
+		},
+		{
+			"id": "duration",
+			"header": "Duration",
+			"width": 17,
+			"type": "number"
+		}
+	],
+	"worktime": {
+		"hours": [
+			0,
+			24
+		],
+		"minutes": null,
+		"dates": {
+			"0": true,
+			"1": true,
+			"2": true,
+			"3": true,
+			"4": true,
+			"5": true,
+			"6": true
+		}
+	},
+	"version": "8.0.9",
+	"upload": null
+}
